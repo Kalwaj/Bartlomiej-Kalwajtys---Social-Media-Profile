@@ -1,0 +1,228 @@
+Załącznik A
+
+import math
+import secrets
+import string
+
+# Zestawy znaków wykorzystywane w obliczeniach (zgodnie z założeniami w rozdziale 4.1)
+CHARSETS = {
+    "lower": string.ascii_lowercase,                          # 26 znaków
+    "alnum": string.ascii_letters + string.digits,            # 62 znaki
+    "full": string.ascii_letters + string.digits + string.punctuation,  # 94 znaki
+}
+
+TRIES_PER_SEC_DEFAULT = 1e9  # 1×10^9 prób/s
+
+
+def entropy(length: int, charset_size: int) -> float:
+    """H = L × log2(N)"""
+    return length * math.log2(charset_size)
+
+
+def time_to_crack_seconds(entropy_bits: float, tries_per_sec: float = TRIES_PER_SEC_DEFAULT) -> float:
+    """T = 2^(H-1) / R"""
+    avg_tries = 2 ** (entropy_bits - 1)
+    return avg_tries / tries_per_sec
+
+
+def format_seconds(seconds: float) -> str:
+    """Formatowanie czasu do postaci czytelnej (sekundy/minuty/godziny/dni/lata)."""
+    if seconds < 1e-3:
+        return f"{seconds * 1e6:.2f} µs"
+    if seconds < 1:
+        return f"{seconds * 1e3:.2f} ms"
+
+    minute = 60
+    hour = 3600
+    day = 86400
+    year = 365.25 * day
+
+    if seconds < minute:
+        return f"{seconds:.2f} s"
+    if seconds < hour:
+        return f"{seconds / minute:.2f} min"
+    if seconds < day:
+        return f"{seconds / hour:.2f} h"
+    if seconds < year:
+        return f"{seconds / day:.2f} dni"
+    return f"{seconds / year:.2e} lat"
+
+
+def generate_password(length: int, charset_key: str = "full", ensure_diversity: bool = True) -> str:
+    """
+    Generator haseł z użyciem secrets (losowanie kryptograficzne).
+    Dla charset_key="full" można wymusić, aby w haśle znalazły się:
+    mała litera, duża litera, cyfra i znak specjalny.
+    """
+    charset = CHARSETS[charset_key]
+
+    if charset_key != "full" or not ensure_diversity or length < 4:
+        return "".join(secrets.choice(charset) for _ in range(length))
+
+    parts = [
+        secrets.choice(string.ascii_lowercase),
+        secrets.choice(string.ascii_uppercase),
+        secrets.choice(string.digits),
+        secrets.choice(string.punctuation),
+    ]
+    parts += [secrets.choice(charset) for _ in range(length - 4)]
+    secrets.SystemRandom().shuffle(parts)
+    return "".join(parts)
+
+
+def evaluate_case(password: str, charset_size: int, tries_per_sec: float = TRIES_PER_SEC_DEFAULT):
+    L = len(password)
+    H = entropy(L, charset_size)
+    sec = time_to_crack_seconds(H, tries_per_sec)
+    return L, H, sec
+
+
+if __name__ == "__main__":
+    # Hasła proste, często spotykane w praktyce
+    weak_examples = [
+        ("password1", 62),
+        ("haslo123", 62),
+        ("qwertyui", 26),
+        ("kochamcie", 26),
+    ]
+
+    # Hasła mieszane (większe N, typowe dla wymuszeń polityk haseł)
+    mixed_examples = [
+        ("Passw0rd!", 94),
+        ("random12AB!$", 94),
+    ]
+
+    # Hasła generowane automatycznie (pełny zestaw 94)
+    generated_examples = [
+        (generate_password(12, "full"), 94),
+        (generate_password(16, "full"), 94),
+        (generate_password(20, "full"), 94),
+    ]
+
+    all_cases = weak_examples + mixed_examples + generated_examples
+
+    print(f"Założona moc atakującego: R = {TRIES_PER_SEC_DEFAULT:.1e} prób/s\n")
+    print(f"{'hasło':28} {'L':>3} {'N':>3} {'H [bity]':>10} {'czas [s]':>12} {'czas (opis)':>14}")
+    print("-" * 85)
+
+    for pw, N in all_cases:
+        L, H, sec = evaluate_case(pw, N)
+        print(f"{pw[:28]:28} {L:>3} {N:>3} {H:>10.1f} {sec:>12.2e} {format_seconds(sec):>14}")
+
+Załącznik B
+
+import base64
+import hmac
+import hashlib
+import secrets
+import time
+
+def pbkdf2_sha256(password, salt, rounds=200_000):
+    dk = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt, rounds)
+    return dk.hex()
+
+def totp(secret_b32, for_time=None, step=30, digits=6):
+    if for_time is None:
+        for_time = int(time.time())
+
+    pad = "=" * ((8 - (len(secret_b32) % 8)) % 8)
+    key = base64.b32decode(secret_b32.upper() + pad)
+
+    counter = int(for_time // step).to_bytes(8, "big")
+    hm = hmac.new(key, counter, hashlib.sha1).digest()
+
+    offset = hm[-1] & 0x0F
+    code_int = ((hm[offset] & 0x7F) << 24) | (hm[offset + 1] << 16) | (hm[offset + 2] << 8) | hm[offset + 3]
+    code = code_int % (10 ** digits)
+    return str(code).zfill(digits)
+
+def verify_totp(code, secret_b32, window=1, step=30, digits=6):
+    now = int(time.time())
+    code = str(code).zfill(digits)
+    for w in range(-window, window + 1):
+        if totp(secret_b32, now + w * step, step=step, digits=digits) == code:
+            return True
+    return False
+
+def seconds_left_in_step(step=30):
+    now = int(time.time())
+    return step - (now % step)
+
+class TwoFAServer:
+    def __init__(self):
+        self.challenge_ttl_sec = 120
+        self.max_attempts = 5
+        self.users = {}
+        self.challenges = {}
+
+    def add_demo_user(self, username="demo", password="DemoPass123!"):
+        secret_b32 = base64.b32encode(secrets.token_bytes(20)).decode("utf-8").rstrip("=")
+        salt = secrets.token_bytes(16)
+        pwd_hash = pbkdf2_sha256(password, salt)
+        self.users[username] = {"salt": salt, "pwd_hash": pwd_hash, "totp_secret_b32": secret_b32}
+        return username, password, secret_b32
+
+    def login(self, username, password):
+        user = self.users.get(username)
+        if not user:
+            return {"ok": False, "error": "invalid credentials"}
+        if pbkdf2_sha256(password, user["salt"]) != user["pwd_hash"]:
+            return {"ok": False, "error": "invalid credentials"}
+        challenge_id = secrets.token_urlsafe(16)
+        self.challenges[challenge_id] = {"username": username, "expires_at": time.time() + self.challenge_ttl_sec, "attempts": 0}
+        return {"ok": True, "challenge_id": challenge_id, "message": "Podaj 6-cyfrowy kod TOTP."}
+
+    def verify(self, challenge_id, code):
+        ch = self.challenges.get(challenge_id)
+        if not ch:
+            return {"ok": False, "error": "unknown challenge"}
+        if time.time() > ch["expires_at"]:
+            self.challenges.pop(challenge_id, None)
+            return {"ok": False, "error": "challenge expired"}
+        if ch["attempts"] >= self.max_attempts:
+            self.challenges.pop(challenge_id, None)
+            return {"ok": False, "error": "too many attempts"}
+        ch["attempts"] += 1
+
+        username = ch["username"]
+        secret = self.users[username]["totp_secret_b32"]
+        if not verify_totp(code, secret, window=1):
+            return {"ok": False, "error": "invalid code"}
+
+        session_token = secrets.token_urlsafe(24)
+        self.challenges.pop(challenge_id, None)
+        return {"ok": True, "session_token": session_token}
+
+def main():
+    srv = TwoFAServer()
+    username, password, secret_b32 = srv.add_demo_user()
+
+    print("DEMO DANE UŻYTKOWNIKA:")
+    print("username:", username)
+    print("password:", password)
+    print("TOTP secret (Base32):", secret_b32)
+    print()
+
+    res_login = srv.login(username, password)
+    print("LOGIN:", res_login)
+    if not res_login.get("ok"):
+        return
+
+    challenge_id = res_login["challenge_id"]
+    print()
+    print("Kod zmienia się co 30 s. Do zmiany zostało:", seconds_left_in_step(), "s")
+
+    try:
+        user_code = input("Wpisz kod z aplikacji (Enter = auto): ").strip()
+    except Exception:
+        user_code = ""
+
+    if not user_code:
+        user_code = totp(secret_b32)
+        print("Automatycznie wygenerowany kod:", user_code)
+
+    res_verify = srv.verify(challenge_id, user_code)
+    print("VERIFY:", res_verify)
+
+if __name__ == "__main__":
+    main()
