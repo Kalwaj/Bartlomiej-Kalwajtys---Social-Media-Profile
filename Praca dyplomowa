@@ -226,3 +226,47 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+Ankieta Badawcza Tabela
+ID	Godzina rozpoczęcia	Godzina ukończenia	Adres e-mail	Nazwa	Czas ostatniej modyfikacji	Wiek respondenta:	Płeć:	Poziom wykształcenia:	Jaką długość mają używane przez Ciebie hasła?	Czy używasz tego samego hasła do wielu kont?	Czy korzystasz z menedżera haseł (np. Bitwarden, 1Password, LastPass)?	Jak ocenianasz poziom siły własnych haseł?	Czy wiesz, czym jest dwuskładnikowe uwierzytelnianie (2FA)?	"Czy stosujesz 2FA w jakichkolwiek serwisach (np. e-mail, bankowość, media społecznościowe)?
+ "	Jaką metodę 2FA preferujesz najczęściej?	Jak oceniasz wygode korzystania z 2FA? Skala 1–5 (1 – bardzo niewygodne, 5 – bardzo wygodne)	Czy kiedykolwiek doszło do utraty lub przejęcia konta w wyniku naruszenia bezpieczeństwa?
+2	11.7.25 11:46:42	11.7.25 11:49:29	anonymous			18–24	Kobieta	Wyższe	12 i więcej znaków	Czasami	Nie	Średni	Nie	Tak	SMS	4	Tak
+3	11.17.25 14:37:57	11.17.25 14:38:35	anonymous			35–44	Kobieta	Wyższe	8–11 znaków	Czasami	Nie	Wysoki	Tak	Tak	SMS	4	Nie
+4	11.17.25 14:39:21	11.17.25 14:40:01	anonymous			35–44	Mężczyzna	Wyższe	8–11 znaków	Czasami	Tak	Średni	Tak	Tak	Aplikacja (np. Authenticator)	4	Nie
+5	11.17.25 14:42:01	11.17.25 14:42:44	anonymous			35–44	Kobieta	Wyższe	12 i więcej znaków	Czasami	Tak	Średni	Tak	Tak	SMS	3	Nie
+6	11.17.25 14:43:56	11.17.25 14:45:06	anonymous			35–44	Kobieta	Wyższe	8–11 znaków	Tak	Nie	Średni	Tak	Nie	SMS	3	Nie
+7	11.17.25 14:43:48	11.17.25 14:45:13	anonymous			45–54	Kobieta	Wyższe	8–11 znaków	Nie	Nie	Średni	Tak	Tak	SMS	3	Nie
+8	11.17.25 14:46:47	11.17.25 14:47:45	anonymous			25–34	Kobieta	Wyższe	8–11 znaków	Nie	Tak	Wysoki	Tak	Tak	Klucz sprzętowy	4	Nie
+9	11.17.25 14:46:43	11.17.25 14:49:36	anonymous			35–44	Mężczyzna	Wyższe	12 i więcej znaków	Tak	Nie	Wysoki	Tak	Tak	Aplikacja (np. Authenticator)	4	Nie
+10	11.17.25 14:48:31	11.17.25 14:52:23	anonymous			35–44	Kobieta	Wyższe	8–11 znaków	Czasami	Nie	Średni	Tak	Tak	SMS	5	Nie
+11	11.17.25 14:51:48	11.17.25 14:52:42	anonymous			35–44	Kobieta	Wyższe	12 i więcej znaków	Czasami	Nie	Wysoki	Tak	Tak	Aplikacja (np. Authenticator)	4	Nie
+12	11.17.25 14:54:09	11.17.25 14:54:54	anonymous			25–34	Kobieta	Wyższe	8–11 znaków	Czasami	Nie	Średni	Tak	Tak	SMS	3	Nie
+13	11.17.25 14:56:07	11.17.25 14:57:00	anonymous			35–44	Mężczyzna	Wyższe	8–11 znaków	Czasami	Tak	Średni	Tak	Tak	Aplikacja (np. Authenticator)	3	Nie
+14	11.17.25 14:57:56	11.17.25 14:58:28	anonymous			25–34	Kobieta	Wyższe	12 i więcej znaków	Czasami	Nie	Wysoki	Tak	Tak	Aplikacja (np. Authenticator)	5	Nie
+15	11.17.25 14:54:51	11.17.25 14:59:20	anonymous			25–34	Mężczyzna	Wyższe	12 i więcej znaków	Nie	Nie	Wysoki	Tak	Tak	Aplikacja (np. Authenticator)	5	Nie
+16	11.17.25 15:07:06	11.17.25 15:08:35	anonymous			35–44	Kobieta	Wyższe	8–11 znaków	Nie	Tak	Średni	Tak	Tak	SMS	3	Nie
+17	11.17.25 15:10:04	11.17.25 15:10:51	anonymous			35–44	Kobieta	Wyższe	8–11 znaków	Czasami	Nie	Wysoki	Tak	Tak	Aplikacja (np. Authenticator)	4	Nie
+18	11.17.25 15:28:29	11.17.25 15:29:23	anonymous			35–44	Mężczyzna	Wyższe	12 i więcej znaków	Nie	Tak	Wysoki	Tak	Tak	Aplikacja (np. Authenticator)	5	Tak
+19	11.17.25 15:50:35	11.17.25 15:51:21	anonymous			25–34	Kobieta	Wyższe	8–11 znaków	Czasami	Tak	Średni	Tak	Tak	SMS	4	Tak
+20	11.17.25 15:56:38	11.17.25 15:57:10	anonymous			35–44	Mężczyzna	Wyższe	12 i więcej znaków	Czasami	Tak	Średni	Tak	Tak	Aplikacja (np. Authenticator)	4	Nie
+21	11.17.25 16:05:57	11.17.25 16:06:41	anonymous			45–54	Mężczyzna	Wyższe	8–11 znaków	Nie	Nie	Wysoki	Tak	Tak	Aplikacja (np. Authenticator)	4	Nie
+22	11.17.25 15:57:55	11.17.25 16:10:37	anonymous			25–34	Kobieta	Wyższe	8–11 znaków	Czasami	Nie	Średni	Tak	Tak	SMS	5	Tak
+23	11.17.25 16:10:50	11.17.25 16:11:58	anonymous			18–24	Mężczyzna	Średnie	12 i więcej znaków	Czasami	Nie	Średni	Tak	Tak	Aplikacja (np. Authenticator)	5	Tak
+24	11.17.25 16:21:53	11.17.25 16:22:50	anonymous			25–34	Kobieta	Wyższe	Krótsze niż 8 znaków	Nie	Tak	Wysoki	Tak	Tak	Aplikacja (np. Authenticator)	3	Nie
+25	11.17.25 17:40:41	11.17.25 17:42:12	anonymous			45–54	Mężczyzna	Wyższe	12 i więcej znaków	Czasami	Tak	Wysoki	Tak	Tak	Aplikacja (np. Authenticator)	4	Nie
+26	11.17.25 19:20:12	11.17.25 19:20:45	anonymous			18–24	Mężczyzna	Średnie	12 i więcej znaków	Nie	Nie	Wysoki	Tak	Tak	SMS	5	Nie
+27	11.17.25 20:49:21	11.17.25 20:50:11	anonymous			18–24	Kobieta	Wyższe	12 i więcej znaków	Czasami	Nie	Wysoki	Tak	Tak	SMS	3	Nie
+28	11.18.25 3:41:52	11.18.25 3:42:28	anonymous			25–34	Kobieta	Wyższe	8–11 znaków	Czasami	Nie	Średni	Tak	Tak	SMS	2	Nie
+29	11.18.25 8:47:37	11.18.25 8:49:30	anonymous			35–44	Mężczyzna	Wyższe	12 i więcej znaków	Czasami	Nie	Wysoki	Tak	Nie	Aplikacja (np. Authenticator)	5	Nie
+30	11.18.25 12:47:51	11.18.25 12:49:24	anonymous			18–24	Kobieta	Średnie	12 i więcej znaków	Tak	Nie	Średni	Tak	Tak	SMS	4	Nie
+31	11.18.25 16:22:08	11.18.25 16:22:51	anonymous			18–24	Mężczyzna	Średnie	8–11 znaków	Czasami	Nie	Średni	Tak	Tak	SMS	5	Nie
+32	11.18.25 18:23:16	11.18.25 18:23:43	anonymous			18–24	Mężczyzna	Średnie	8–11 znaków	Czasami	Nie	Niski	Tak	Tak	SMS	4	Tak
+33	11.18.25 18:30:42	11.18.25 18:31:44	anonymous			25–34	Kobieta	Średnie	8–11 znaków	Tak	Nie	Średni	Nie	Nie	SMS	2	Tak
+34	11.19.25 7:07:16	11.19.25 7:08:26	anonymous			45–54	Mężczyzna	Wyższe	12 i więcej znaków	Nie	Tak	Wysoki	Tak	Tak	Aplikacja (np. Authenticator)	4	Tak
+35	11.19.25 8:51:10	11.19.25 8:52:44	anonymous			18–24	Kobieta	Średnie	8–11 znaków	Czasami	Nie	Średni	Tak	Tak	SMS	3	Nie
+36	11.20.25 21:01:54	11.20.25 21:02:54	anonymous			18–24	Kobieta	Średnie	8–11 znaków	Tak	Nie	Średni	Tak	Tak	Aplikacja (np. Authenticator)	3	Tak
+37	11.21.25 13:02:15	11.21.25 13:03:55	anonymous			18–24	Kobieta	Średnie	8–11 znaków	Czasami	Nie	Wysoki	Tak	Nie	SMS	3	Nie
+38	11.22.25 9:04:39	11.22.25 9:07:12	anonymous			18–24	Kobieta	Wyższe	12 i więcej znaków	Tak	Tak	Średni	Tak	Tak	SMS	4	Tak
+39	11.26.25 11:51:05	11.26.25 11:51:47	anonymous			25–34	Mężczyzna	Średnie	12 i więcej znaków	Czasami	Tak	Wysoki	Tak	Tak	Aplikacja (np. Authenticator)	5	Tak
+
